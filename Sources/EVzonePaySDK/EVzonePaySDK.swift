@@ -2,7 +2,6 @@ import SwiftUI
 import UIKit // For UIScreen
 import Combine // For @Published
 
-// Public SDK Manager
 public class EVzonePayManager: ObservableObject {
     @Published public var showLogin = false
     @Published public var showPurchase = false
@@ -21,14 +20,12 @@ public class EVzonePayManager: ObservableObject {
     }
 }
 
-// Payment Status Messages
 public let paymentMessages = [
     "Payment Successful",
     "Payment Failed",
     "Insufficient Funds"
 ]
 
-// Header View with Consumer-Provided Image
 public struct PopupHeader: View {
     public let imageName: String
     
@@ -52,7 +49,6 @@ public struct PopupHeader: View {
     }
 }
 
-// Popup Views
 public struct LoginPopup: View {
     @Binding public var shown: Bool
     public let imageName: String
