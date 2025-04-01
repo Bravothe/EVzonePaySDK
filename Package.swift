@@ -5,8 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "EVzonePaySDK",
+    platforms: [
+        .iOS(.v13) // Target iOS 13+ for SwiftUI and Combine
+    ],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "EVzonePaySDK",
             targets: ["EVzonePaySDK"]),
@@ -16,8 +18,6 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "EVzonePaySDK",
             dependencies: []),
