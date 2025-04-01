@@ -1,4 +1,8 @@
 import SwiftUI
+import UIKit // For UIScreen
+import Combine // For @Published
+
+// Public SDK Manager
 public class EVzonePayManager: ObservableObject {
     @Published public var showLogin = false
     @Published public var showPurchase = false
