@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "EVzonePaySDK",
     platforms: [
-        .iOS(.v13) // Target iOS 13+ for SwiftUI and Combine
+        .iOS(.v15) // Target iOS 13+ for SwiftUI and Combine
     ],
     products: [
         .library(

@@ -32,10 +32,10 @@ public struct PopupHeader: View {
             Image(imageName)
                 .resizable()
                 .frame(width: 40, height: 40)
-                .cornerRadius(8)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             Text("EVzone Pay")
-                .font(.headline)
-                .foregroundColor(.white)
+                .font(.system(.headline, design: .rounded))
+                .foregroundColor(.primary)
             Spacer()
         }
         .padding(.horizontal)
@@ -53,41 +53,39 @@ public struct LoginPopup: View {
     public let onLogin: () -> Void
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             PopupHeader(imageName: imageName)
             Spacer()
             Text("No account detected, please sign in to continue")
-                .font(.subheadline)
-                .foregroundColor(.white)
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
             Spacer()
-            HStack {
+            HStack(spacing: 10) {
                 Button("Cancel") { shown = false }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: UIScreen.main.bounds.width/2-25, height: 40)
-                    .background(Color.red.opacity(0.8))
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .frame(width: UIScreen.main.bounds.width / 2 - 25, height: 40)
+                    .background(Color(.systemGray5))
+                    .foregroundColor(.primary)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                
                 Button("Sign Up") {
                     withAnimation(.easeInOut) { onLogin() }
                 }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: UIScreen.main.bounds.width/2-25, height: 40)
-                    .background(Color.blue.opacity(0.8))
+                    .frame(width: UIScreen.main.bounds.width / 2 - 25, height: 40)
+                    .background(Color(.systemBlue))
                     .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
             .padding(.bottom, 15)
         }
-        .frame(width: UIScreen.main.bounds.width-50, height: 200)
+        .frame(width: UIScreen.main.bounds.width - 50, height: 200)
         .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.9), Color.blue.opacity(0.6)]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            .ultraThinMaterial,
+            in: RoundedRectangle(cornerRadius: 14, style: .continuous)
         )
-        .cornerRadius(12)
-        .shadow(radius: 5)
+        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
     }
     
     public init(shown: Binding<Bool>, imageName: String, onLogin: @escaping () -> Void) {
@@ -103,45 +101,44 @@ public struct PurchasePopup: View {
     public let onNext: () -> Void
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             PopupHeader(imageName: imageName)
             Spacer()
             Text("Purchase Details")
-                .font(.subheadline)
-                .foregroundColor(.white)
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundColor(.secondary)
             Text("Premium Subscription")
-                .foregroundColor(.white.opacity(0.9))
+                .font(.system(.body, design: .rounded))
+                .foregroundColor(.primary)
             Text("Price: $9.99")
-                .foregroundColor(.white.opacity(0.9))
+                .font(.system(.body, design: .rounded))
+                .foregroundColor(.primary)
             Spacer()
-            HStack {
+            HStack(spacing: 10) {
                 Button("Cancel") { shown = false }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: UIScreen.main.bounds.width/2-25, height: 40)
-                    .background(Color.red.opacity(0.8))
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .frame(width: UIScreen.main.bounds.width / 2 - 25, height: 40)
+                    .background(Color(.systemGray5))
+                    .foregroundColor(.primary)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                
                 Button("Next") {
                     withAnimation(.easeInOut) { onNext() }
                 }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: UIScreen.main.bounds.width/2-25, height: 40)
-                    .background(Color.blue.opacity(0.8))
+                    .frame(width: UIScreen.main.bounds.width / 2 - 25, height: 40)
+                    .background(Color(.systemBlue))
                     .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
             .padding(.bottom, 15)
         }
-        .frame(width: UIScreen.main.bounds.width-50, height: 200)
+        .frame(width: UIScreen.main.bounds.width - 50, height: 200)
         .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.9), Color.blue.opacity(0.6)]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            .ultraThinMaterial,
+            in: RoundedRectangle(cornerRadius: 14, style: .continuous)
         )
-        .cornerRadius(12)
-        .shadow(radius: 5)
+        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
     }
     
     public init(shown: Binding<Bool>, imageName: String, onNext: @escaping () -> Void) {
@@ -158,28 +155,29 @@ public struct PaymentConfirmPopup: View {
     public let onConfirm: (String) -> Void
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             PopupHeader(imageName: imageName)
             Spacer()
             Text("Payment Confirmation")
-                .font(.subheadline)
-                .foregroundColor(.white)
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundColor(.secondary)
             Text("Amount: $9.99  Service Fee: $0.50  Total: $10.49")
-                .foregroundColor(.white.opacity(0.9))
-                .font(.headline) // Adjust the font style to make it more intrusive
-            
+                .font(.system(.headline, design: .rounded))
+                .foregroundColor(.primary)
+                .multilineTextAlignment(.center)
             TextField("Enter Passcode", text: $passcode)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .frame(width: 200)
-                .background(Color.white.opacity(0.1))
+                .padding(.vertical, 5)
             Spacer()
-            HStack {
+            HStack(spacing: 10) {
                 Button("Cancel") { shown = false }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: UIScreen.main.bounds.width/2-25, height: 40)
-                    .background(Color.red.opacity(0.8))
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .frame(width: UIScreen.main.bounds.width / 2 - 25, height: 40)
+                    .background(Color(.systemGray5))
+                    .foregroundColor(.primary)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                
                 Button("Continue") {
                     withAnimation(.easeInOut) {
                         let randomStatus = Int.random(in: 0...2)
@@ -187,23 +185,19 @@ public struct PaymentConfirmPopup: View {
                     }
                 }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: UIScreen.main.bounds.width/2-25, height: 40)
-                    .background(Color.blue.opacity(0.8))
+                    .frame(width: UIScreen.main.bounds.width / 2 - 25, height: 40)
+                    .background(Color(.systemBlue))
                     .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
             .padding(.bottom, 15)
         }
-        .frame(width: UIScreen.main.bounds.width-50, height: 250)
+        .frame(width: UIScreen.main.bounds.width - 50, height: 250)
         .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.9), Color.blue.opacity(0.6)]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            .ultraThinMaterial,
+            in: RoundedRectangle(cornerRadius: 14, style: .continuous)
         )
-        .cornerRadius(12)
-        .shadow(radius: 5)
+        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
     }
     
     public init(shown: Binding<Bool>, passcode: Binding<String>, imageName: String, onConfirm: @escaping (String) -> Void) {
@@ -220,33 +214,30 @@ public struct PaymentStatusPopup: View {
     public let imageName: String
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             PopupHeader(imageName: imageName)
             Spacer()
             Text("Payment Status")
-                .font(.subheadline)
-                .foregroundColor(.white)
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundColor(.secondary)
             Text(status)
-                .foregroundColor(.white.opacity(0.9))
+                .font(.system(.body, design: .rounded))
+                .foregroundColor(.primary)
             Spacer()
             Button("OK") { shown = false }
                 .buttonStyle(PlainButtonStyle())
-                .frame(width: UIScreen.main.bounds.width/2-25, height: 40)
-                .background(Color.blue.opacity(0.8))
+                .frame(width: UIScreen.main.bounds.width / 2 - 25, height: 40)
+                .background(Color(.systemBlue))
                 .foregroundColor(.white)
-                .cornerRadius(8)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .padding(.bottom, 15)
         }
-        .frame(width: UIScreen.main.bounds.width-50, height: 200)
+        .frame(width: UIScreen.main.bounds.width - 50, height: 200)
         .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.9), Color.blue.opacity(0.6)]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            .ultraThinMaterial,
+            in: RoundedRectangle(cornerRadius: 14, style: .continuous)
         )
-        .cornerRadius(12)
-        .shadow(radius: 5)
+        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
     }
     
     public init(shown: Binding<Bool>, status: Binding<String>, imageName: String) {
