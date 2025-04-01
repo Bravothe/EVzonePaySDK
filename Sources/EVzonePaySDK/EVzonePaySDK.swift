@@ -56,7 +56,7 @@ public struct LoginPopup: View {
         VStack {
             PopupHeader(imageName: imageName)
             Spacer()
-            Text("Please Login")
+            Text("No account detected, please sign in to continue")
                 .font(.subheadline)
                 .foregroundColor(.white)
             Spacer()
@@ -67,7 +67,7 @@ public struct LoginPopup: View {
                     .background(Color.red.opacity(0.8))
                     .foregroundColor(.white)
                     .cornerRadius(8)
-                Button("Login") {
+                Button("Sign Up") {
                     withAnimation(.easeInOut) { onLogin() }
                 }
                     .buttonStyle(PlainButtonStyle())
@@ -109,7 +109,7 @@ public struct PurchasePopup: View {
             Text("Purchase Details")
                 .font(.subheadline)
                 .foregroundColor(.white)
-            Text("Item: Premium Subscription")
+            Text("Premium Subscription")
                 .foregroundColor(.white.opacity(0.9))
             Text("Price: $9.99")
                 .foregroundColor(.white.opacity(0.9))
@@ -164,12 +164,10 @@ public struct PaymentConfirmPopup: View {
             Text("Payment Confirmation")
                 .font(.subheadline)
                 .foregroundColor(.white)
-            Text("Amount: $9.99")
+            Text("Amount: $9.99  Service Fee: $0.50  Total: $10.49")
                 .foregroundColor(.white.opacity(0.9))
-            Text("Service Fee: $0.50")
-                .foregroundColor(.white.opacity(0.9))
-            Text("Total: $10.49")
-                .foregroundColor(.white.opacity(0.9))
+                .font(.headline) // Adjust the font style to make it more intrusive
+            
             TextField("Enter Passcode", text: $passcode)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .frame(width: 200)
