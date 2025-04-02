@@ -2,18 +2,42 @@ import SwiftUI
 
 public struct EVzonePayView: View {
     @ObservedObject public var manager: EVzonePayManager
+    @State private var isBlinking = false // For text blinking
+    
+    private let logoURL = URL(string: "https://res.cloudinary.com/dlfa42ans/image/upload/v1741686201/logo_n7vrsf.jpg")!
     
     public var body: some View {
         ZStack {
             if manager.isLoading {
                 VStack {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(1.5)
-                    Text("Processing...")
-                        .font(.system(.body, design: .rounded))
-                        .foregroundColor(.secondary)
-                        .padding(.top, 10)
+                    AsyncImage(url: logoURL) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 44, height: 44)
+                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width: 44, height: 44)
+                    }
+                    HStack(spacing: 0) {
+                        Text("EVzone")
+                            .font(.system(.body, design: .rounded, weight: .bold))
+                            .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                        Text(" Pay")
+                            .font(.system(.body, design: .rounded, weight: .bold))
+                            .foregroundColor(Color(red: 1.0, green: 0.5, blue: 0.0)) // Smooth orange
+                        
+                    }
+                    .padding(.top, 10)
+                    .opacity(isBlinking ? 1.0 : 0.0) // Blinking effect
+                    .animation(
+                        Animation.easeInOut(duration: 1.0)
+                            .repeatForever(autoreverses: true),
+                        value: isBlinking
+                    )
+                    .onAppear { isBlinking = true }
+                    .onDisappear { isBlinking = false }
                 }
                 .frame(width: 150, height: 150)
                 .background(Color(.systemBackground))
