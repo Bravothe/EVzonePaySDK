@@ -1,14 +1,20 @@
 import SwiftUI
 
 public struct PopupHeader: View {
-    public let imageName: String
+    // Hardcoded Cloudinary URL for demo (replace with your own hosted image)
+    private let cloudImageURL = URL(string: "https://res.cloudinary.com/dlfa42ans/image/upload/v1741686201/logo_n7vrsf.jpg")!
     
     public var body: some View {
         HStack {
-            Image(imageName)
-                .resizable()
-                .frame(width: 44, height: 44)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            AsyncImage(url: cloudImageURL) { image in
+                image
+                    .resizable()
+                    .frame(width: 44, height: 44)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            } placeholder: {
+                ProgressView()
+                    .frame(width: 44, height: 44)
+            }
             Text("EVzone Pay")
                 .font(.system(.title3, design: .rounded, weight: .semibold))
                 .foregroundColor(.primary)
@@ -18,7 +24,5 @@ public struct PopupHeader: View {
         .padding(.top, 15)
     }
     
-    public init(imageName: String) {
-        self.imageName = imageName
-    }
+    public init() {}
 }

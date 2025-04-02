@@ -1,47 +1,43 @@
 import SwiftUI
 
-// New view to handle all popups
 public struct EVzonePayView: View {
     @ObservedObject public var manager: EVzonePayManager
-    public let imageName: String
     
     public var body: some View {
         ZStack {
             if manager.showLogin {
-                LoginPopup(manager: manager, imageName: imageName)
+                LoginPopup(manager: manager)
                     .transition(.scale.combined(with: .opacity))
             }
             
             if manager.showPurchase {
-                PurchasePopup(manager: manager, imageName: imageName)
+                PurchasePopup(manager: manager)
                     .transition(.scale.combined(with: .opacity))
             }
             
             if manager.showConfirm {
-                PaymentConfirmPopup(manager: manager, imageName: imageName)
+                PaymentConfirmPopup(manager: manager)
                     .transition(.scale.combined(with: .opacity))
             }
             
             if manager.showStatus {
-                PaymentStatusPopup(manager: manager, imageName: imageName)
+                PaymentStatusPopup(manager: manager)
                     .transition(.scale.combined(with: .opacity))
             }
         }
     }
     
-    public init(manager: EVzonePayManager, imageName: String) {
+    public init(manager: EVzonePayManager) {
         self.manager = manager
-        self.imageName = imageName
     }
 }
 
 public struct LoginPopup: View {
     @ObservedObject public var manager: EVzonePayManager
-    public let imageName: String
     
     public var body: some View {
         VStack(spacing: 0) {
-            PopupHeader(imageName: imageName)
+            PopupHeader()
             Divider()
                 .padding(.horizontal, 20)
             Spacer()
@@ -80,19 +76,17 @@ public struct LoginPopup: View {
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
-    public init(manager: EVzonePayManager, imageName: String) {
+    public init(manager: EVzonePayManager) {
         self.manager = manager
-        self.imageName = imageName
     }
 }
 
 public struct PurchasePopup: View {
     @ObservedObject public var manager: EVzonePayManager
-    public let imageName: String
     
     public var body: some View {
         VStack(spacing: 0) {
-            PopupHeader(imageName: imageName)
+            PopupHeader()
             Divider()
                 .padding(.horizontal, 20)
             Spacer()
@@ -100,10 +94,7 @@ public struct PurchasePopup: View {
                 .font(.system(.title3, design: .rounded, weight: .medium))
                 .foregroundColor(.primary)
             VStack(spacing: 8) {
-                Text("Purchase")
-                    .font(.system(.body, design: .rounded))
-                    .foregroundColor(.primary)
-                Text("User1")
+                Text(manager.itemsPurchased)
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(.primary)
                 Text("Total: \(manager.totalAmount)")
@@ -122,7 +113,7 @@ public struct PurchasePopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Continue") { manager.proceedFromPurchase() }
+                Button("Next") { manager.proceedFromPurchase() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
@@ -139,26 +130,24 @@ public struct PurchasePopup: View {
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
-    public init(manager: EVzonePayManager, imageName: String) {
+    public init(manager: EVzonePayManager) {
         self.manager = manager
-        self.imageName = imageName
     }
 }
 
 public struct PaymentConfirmPopup: View {
     @ObservedObject public var manager: EVzonePayManager
-    public let imageName: String
     
     public var body: some View {
         VStack(spacing: 0) {
-            PopupHeader(imageName: imageName)
+            PopupHeader()
             Divider()
                 .padding(.horizontal, 20)
             Spacer()
-            Text("Merchant Info :")
+            Text("Payment Confirmation")
                 .font(.system(.title3, design: .rounded, weight: .medium))
                 .foregroundColor(.primary)
-            Text("You are making a payment to Haris Internation and amount \(manager.totalAmount) will be deducted off your wallet, including 0.5% tax (200) and 0.5 walllet fee (230)")
+            Text("Total: \(manager.totalAmount)")
                 .font(.system(.body, design: .rounded))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
@@ -178,7 +167,7 @@ public struct PaymentConfirmPopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Confirm") { manager.proceedFromConfirm() }
+                Button("Continue") { manager.proceedFromConfirm() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
@@ -195,19 +184,17 @@ public struct PaymentConfirmPopup: View {
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
-    public init(manager: EVzonePayManager, imageName: String) {
+    public init(manager: EVzonePayManager) {
         self.manager = manager
-        self.imageName = imageName
     }
 }
 
 public struct PaymentStatusPopup: View {
     @ObservedObject public var manager: EVzonePayManager
-    public let imageName: String
     
     public var body: some View {
         VStack(spacing: 0) {
-            PopupHeader(imageName: imageName)
+            PopupHeader()
             Divider()
                 .padding(.horizontal, 20)
             Spacer()
@@ -237,8 +224,7 @@ public struct PaymentStatusPopup: View {
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
-    public init(manager: EVzonePayManager, imageName: String) {
+    public init(manager: EVzonePayManager) {
         self.manager = manager
-        self.imageName = imageName
     }
 }
