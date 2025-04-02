@@ -1,9 +1,8 @@
 import SwiftUI
 
 public struct LoginPopup: View {
-    @Binding public var shown: Bool
+    @ObservedObject public var manager: EVzonePayManager
     public let imageName: String
-    public let onLogin: () -> Void
     
     public var body: some View {
         VStack(spacing: 0) {
@@ -22,16 +21,14 @@ public struct LoginPopup: View {
             Divider()
                 .padding(.horizontal, 20)
             HStack(spacing: 15) {
-                Button("Cancel") { shown = false }
+                Button("Cancel") { manager.showLogin = false }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemGray6))
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Sign Up") {
-                    withAnimation(.easeInOut) { onLogin() }
-                }
+                Button("Sign Up") { manager.proceedFromLogin() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
@@ -48,17 +45,15 @@ public struct LoginPopup: View {
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
-    public init(shown: Binding<Bool>, imageName: String, onLogin: @escaping () -> Void) {
-        self._shown = shown
+    public init(manager: EVzonePayManager, imageName: String) {
+        self.manager = manager
         self.imageName = imageName
-        self.onLogin = onLogin
     }
 }
 
 public struct PurchasePopup: View {
-    @Binding public var shown: Bool
+    @ObservedObject public var manager: EVzonePayManager
     public let imageName: String
-    public let onNext: () -> Void
     
     public var body: some View {
         VStack(spacing: 0) {
@@ -70,10 +65,10 @@ public struct PurchasePopup: View {
                 .font(.system(.title3, design: .rounded, weight: .medium))
                 .foregroundColor(.primary)
             VStack(spacing: 8) {
-                Text("Premium Subscription")
+                Text(manager.itemsPurchased)
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(.primary)
-                Text("Price: $9.99")
+                Text("Total: \(manager.totalAmount)")
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(.secondary)
             }
@@ -82,16 +77,14 @@ public struct PurchasePopup: View {
             Divider()
                 .padding(.horizontal, 20)
             HStack(spacing: 15) {
-                Button("Cancel") { shown = false }
+                Button("Cancel") { manager.showPurchase = false }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemGray6))
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Next") {
-                    withAnimation(.easeInOut) { onNext() }
-                }
+                Button("Next") { manager.proceedFromPurchase() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
@@ -108,18 +101,15 @@ public struct PurchasePopup: View {
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
-    public init(shown: Binding<Bool>, imageName: String, onNext: @escaping () -> Void) {
-        self._shown = shown
+    public init(manager: EVzonePayManager, imageName: String) {
+        self.manager = manager
         self.imageName = imageName
-        self.onNext = onNext
     }
 }
 
 public struct PaymentConfirmPopup: View {
-    @Binding public var shown: Bool
-    @Binding public var passcode: String
+    @ObservedObject public var manager: EVzonePayManager
     public let imageName: String
-    public let onConfirm: (String) -> Void
     
     public var body: some View {
         VStack(spacing: 0) {
@@ -130,12 +120,12 @@ public struct PaymentConfirmPopup: View {
             Text("Payment Confirmation")
                 .font(.system(.title3, design: .rounded, weight: .medium))
                 .foregroundColor(.primary)
-            Text("Amount: $9.99  •  Service Fee: $0.50  •  Total: $10.49")
+            Text("Total: \(manager.totalAmount)")
                 .font(.system(.body, design: .rounded))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
                 .padding(.top, 10)
-            TextField("Enter Passcode", text: $passcode)
+            TextField("Enter Passcode", text: $manager.passcode)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .frame(width: 220, height: 44)
                 .padding(.top, 15)
@@ -143,7 +133,7 @@ public struct PaymentConfirmPopup: View {
             Divider()
                 .padding(.horizontal, 20)
             HStack(spacing: 15) {
-                Button("Cancel") { shown = false }
+                Button("Cancel") { manager.showConfirm = false }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemGray6))
@@ -151,10 +141,8 @@ public struct PaymentConfirmPopup: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
                 Button("Continue") {
-                    withAnimation(.easeInOut) {
-                        let randomStatus = Int.random(in: 0...2)
-                        onConfirm(paymentMessages[randomStatus])
-                    }
+                    let randomStatus = Int.random(in: 0...2)
+                    manager.proceedFromConfirm(status: paymentMessages[randomStatus])
                 }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
@@ -172,17 +160,14 @@ public struct PaymentConfirmPopup: View {
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
-    public init(shown: Binding<Bool>, passcode: Binding<String>, imageName: String, onConfirm: @escaping (String) -> Void) {
-        self._shown = shown
-        self._passcode = passcode
+    public init(manager: EVzonePayManager, imageName: String) {
+        self.manager = manager
         self.imageName = imageName
-        self.onConfirm = onConfirm
     }
 }
 
 public struct PaymentStatusPopup: View {
-    @Binding public var shown: Bool
-    @Binding public var status: String
+    @ObservedObject public var manager: EVzonePayManager
     public let imageName: String
     
     public var body: some View {
@@ -191,17 +176,17 @@ public struct PaymentStatusPopup: View {
             Divider()
                 .padding(.horizontal, 20)
             Spacer()
-            Text("Status")
+            Text("Payment Status")
                 .font(.system(.title3, design: .rounded, weight: .medium))
                 .foregroundColor(.primary)
-            Text(status)
+            Text(manager.paymentStatus)
                 .font(.system(.body, design: .rounded))
                 .foregroundColor(.primary)
                 .padding(.top, 10)
             Spacer()
             Divider()
                 .padding(.horizontal, 20)
-            Button("OK") { shown = false }
+            Button("OK") { manager.closeStatus() }
                 .buttonStyle(PlainButtonStyle())
                 .frame(width: UIScreen.main.bounds.width - 80, height: 50)
                 .background(Color(.systemBlue))
@@ -217,9 +202,8 @@ public struct PaymentStatusPopup: View {
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
-    public init(shown: Binding<Bool>, status: Binding<String>, imageName: String) {
-        self._shown = shown
-        self._status = status
+    public init(manager: EVzonePayManager, imageName: String) {
+        self.manager = manager
         self.imageName = imageName
     }
 }
