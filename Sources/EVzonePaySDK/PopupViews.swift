@@ -1,5 +1,40 @@
 import SwiftUI
 
+// New view to handle all popups
+public struct EVzonePayView: View {
+    @ObservedObject public var manager: EVzonePayManager
+    public let imageName: String
+    
+    public var body: some View {
+        ZStack {
+            if manager.showLogin {
+                LoginPopup(manager: manager, imageName: imageName)
+                    .transition(.scale.combined(with: .opacity))
+            }
+            
+            if manager.showPurchase {
+                PurchasePopup(manager: manager, imageName: imageName)
+                    .transition(.scale.combined(with: .opacity))
+            }
+            
+            if manager.showConfirm {
+                PaymentConfirmPopup(manager: manager, imageName: imageName)
+                    .transition(.scale.combined(with: .opacity))
+            }
+            
+            if manager.showStatus {
+                PaymentStatusPopup(manager: manager, imageName: imageName)
+                    .transition(.scale.combined(with: .opacity))
+            }
+        }
+    }
+    
+    public init(manager: EVzonePayManager, imageName: String) {
+        self.manager = manager
+        self.imageName = imageName
+    }
+}
+
 public struct LoginPopup: View {
     @ObservedObject public var manager: EVzonePayManager
     public let imageName: String
