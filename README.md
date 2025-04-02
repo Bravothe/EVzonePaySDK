@@ -1,5 +1,4 @@
 
-```markdown
 # EVzonePaySDK
 
 A SwiftUI-based iOS SDK for integrating a simple payment flow into your app. This SDK handles user authentication, purchase confirmation, and payment status display through elegant popups, requiring minimal setup from the consumer app.
@@ -97,5 +96,3 @@ A SwiftUI-based iOS SDK for integrating a simple payment flow into your app. Thi
 
 MIT License. See [LICENSE](LICENSE) for details.
 ```
-
----
