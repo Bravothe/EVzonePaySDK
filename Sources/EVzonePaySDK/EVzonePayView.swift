@@ -2,7 +2,7 @@ import SwiftUI
 
 public struct EVzonePayView: View {
     @ObservedObject public var manager: EVzonePayManager
-    @State private var isBlinking = false // For text blinking
+    @State private var isBlinking = false
     
     private let logoURL = URL(string: "https://res.cloudinary.com/dlfa42ans/image/upload/v1741686201/logo_n7vrsf.jpg")!
     
@@ -30,7 +30,7 @@ public struct EVzonePayView: View {
                         
                     }
                     .padding(.top, 10)
-                    .opacity(isBlinking ? 1.0 : 0.0) // Blinking effect
+                    .opacity(isBlinking ? 1.0 : 0.0)
                     .animation(
                         Animation.easeInOut(duration: 1.0)
                             .repeatForever(autoreverses: true),

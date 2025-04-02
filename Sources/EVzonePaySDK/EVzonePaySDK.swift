@@ -35,7 +35,8 @@ public class EVzonePayManager: ObservableObject {
         withAnimation(.easeInOut) {
             isLoading = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        // Extended delay to 40 seconds for loading animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 40.0) {
             withAnimation(.easeInOut) {
                 self.isLoading = false
                 if self.username == nil || self.users[self.username!] == nil {
