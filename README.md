@@ -1,17 +1,20 @@
 
+```markdown
 # EVzonePaySDK
 
 A SwiftUI-based iOS SDK for integrating a simple payment flow into your app. This SDK handles user authentication, purchase confirmation, and payment status display through elegant popups, requiring minimal setup from the consumer app.
 
 ## Features
-- **User Validation**: Checks if a username exists before proceeding.
-- **Passcode Verification**: Ensures the entered passcode matches the stored one.
-- **Balance Check**: Confirms sufficient funds for the transaction.
-- **Popup UI**: Provides a complete payment flow with Login, Purchase, Confirmation, and Status popups.
-- **Customizable**: Pass your own username, total amount, items purchased, and image.
+
+- User Validation: Checks if a username exists before proceeding.
+- Passcode Verification: Ensures the entered passcode matches the stored one.
+- Balance Check: Confirms sufficient funds for the transaction.
+- Popup UI: Provides a complete payment flow with Login, Purchase, Confirmation, and Status popups, with a cloud-hosted logo and animated loading state.
+- Customizable: Pass your own username, total amount, and items purchased.
 
 ## Requirements
-- iOS 13.0 or later
+
+- iOS 16.0 or later
 - Swift 5.5+
 - Xcode 13.0+
 
@@ -21,23 +24,21 @@ A SwiftUI-based iOS SDK for integrating a simple payment flow into your app. Thi
 
 1. In Xcode, go to `File > Add Packages`.
 2. Enter the repository URL:
-
- ```swift
- https://github.com/Bravothe/EVzonePaySDK.git
- ```
-
-4. Add the package to your target.
+   ```swift
+   https://github.com/Bravothe/EVzonePaySDK.git
+   ```
+3. Add the package to your target.
 
 ## Usage
 
 ### Quick Start
 
-1. **Import the SDK**:
+1. Import the SDK:
    ```swift
    import EVzonePaySDK
    ```
 
-2. **Set Up in Your View**:
+2. Set Up in Your View:
 
    Create an instance of `EVzonePayManager` with your payment details and add `EVzonePayView` to your view hierarchy.
 
@@ -46,61 +47,55 @@ A SwiftUI-based iOS SDK for integrating a simple payment flow into your app. Thi
    import EVzonePaySDK
 
    struct ContentView: View {
-       @StateObject private var payManager = EVzonePayManager(
-           username: "user1", // Optional: nil if no user
-           totalAmount: "$100.49",
-           itemsPurchased: "Premium Subscription"
-       )
-       private let paymentImageName = "yourImageName" // Provided by your app
-
+       @StateObject private var payManager: EVzonePayManager
+       
+       init() {
+           _payManager = StateObject(wrappedValue: EVzonePayManager(
+               username: "user1",
+               totalAmount: "$100.49",
+               itemsPurchased: "Premium Subscription"
+           ))
+       }
+       
        var body: some View {
            ZStack {
                VStack {
-                   Image(paymentImageName)
-                       .resizable()
-                       .frame(width: 300, height: 300)
-                   Text("Item: \(payManager.itemsPurchased)")
-                       .font(.headline)
-                   Text("Total: \(payManager.totalAmount)")
-                       .font(.headline)
+                   VStack(alignment: .leading, spacing: 10) {
+                       Text("Item: \(payManager.itemsPurchased)")
+                           .font(.headline)
+                       Text("Total Amount: \(payManager.totalAmount)")
+                           .font(.headline)
+                   }
+                   .padding()
+                   
                    Button("Pay Now") {
                        payManager.startPayment()
                    }
+                   .buttonStyle(PlainButtonStyle())
                    .frame(width: 200, height: 50)
                    .background(Color.blue)
                    .foregroundColor(.white)
                    .cornerRadius(10)
+                   
                    Spacer()
                }
-               .blur(radius: payManager.showLogin || payManager.showPurchase || payManager.showConfirm || payManager.showStatus ? 30 : 0)
+               .blur(radius: payManager.showLogin || payManager.showPurchase || payManager.showConfirm || payManager.showStatus || payManager.isLoading ? 30 : 0)
                
-               EVzonePayView(manager: payManager, imageName: paymentImageName)
+               EVzonePayView(manager: payManager)
            }
+       }
+   }
+
+   struct ContentView_Previews: PreviewProvider {
+       static var previews: some View {
+           ContentView()
        }
    }
    ```
 
-### How It Works
-
-1. **Initialize**: Create an `EVzonePayManager` with a `username` (optional), `totalAmount`, and `itemsPurchased`.
-2. **Trigger Payment**: Call `startPayment()` on the manager when the user taps "Pay Now".
-3. **Popups**: The SDK automatically displays the appropriate popup (Login, Purchase, Confirm, or Status) based on the flow:
-   - If no valid username, shows a Login popup.
-   - If username exists, proceeds to Purchase, then Confirm (passcode entry).
-   - Validates passcode and balance, showing the final Status.
-
-### Example Users
-
-For testing, the SDK includes a mock user database:
-- Username: `user1`, Passcode: `1234`, Balance: `$150.00`
-- Username: `user2`, Passcode: `5678`, Balance: `$50.00`
-
-Try with `user1` (succeeds for $100.49) or `user2` (fails due to insufficient funds).
-
-## Customization
-
-- **Image**: Pass an `imageName` from your app’s asset catalog to brand the popups.
-
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
+```
+
+---
