@@ -32,7 +32,7 @@ public struct PurchasePopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Next") { manager.proceedFromPurchase() }
+                Button("Continue") { manager.proceedFromPurchase() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))

@@ -2,7 +2,7 @@
 import SwiftUI
 
 public struct PopupHeader: View {
-    private let cloudImageURL = URL(string: "https://res.cloudinary.com/dlfa42ans/image/upload/v1741686201/logo_n7vrsf.jpg")!
+    private let cloudImageURL = URL(string: "https://res.cloudinary.com/dlfa42ans/image/upload/v1743601557/logo1_ypujra.png")!
     
     public var body: some View {
         HStack {

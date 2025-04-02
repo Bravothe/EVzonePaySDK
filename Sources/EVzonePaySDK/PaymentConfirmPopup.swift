@@ -32,7 +32,7 @@ public struct PaymentConfirmPopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Continue") { manager.proceedFromConfirm() }
+                Button("Confirm") { manager.proceedFromConfirm() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
