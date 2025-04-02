@@ -140,10 +140,7 @@ public struct PaymentConfirmPopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Continue") {
-                    let randomStatus = Int.random(in: 0...2)
-                    manager.proceedFromConfirm(status: paymentMessages[randomStatus])
-                }
+                Button("Continue") { manager.proceedFromConfirm() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
