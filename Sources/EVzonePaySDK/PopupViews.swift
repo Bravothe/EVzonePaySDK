@@ -100,7 +100,10 @@ public struct PurchasePopup: View {
                 .font(.system(.title3, design: .rounded, weight: .medium))
                 .foregroundColor(.primary)
             VStack(spacing: 8) {
-                Text(manager.itemsPurchased)
+                Text("Purchase")
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(.primary)
+                Text("User1")
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(.primary)
                 Text("Total: \(manager.totalAmount)")
@@ -119,7 +122,7 @@ public struct PurchasePopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Next") { manager.proceedFromPurchase() }
+                Button("Continue") { manager.proceedFromPurchase() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
@@ -152,10 +155,10 @@ public struct PaymentConfirmPopup: View {
             Divider()
                 .padding(.horizontal, 20)
             Spacer()
-            Text("Payment Confirmation")
+            Text("Merchant Info :")
                 .font(.system(.title3, design: .rounded, weight: .medium))
                 .foregroundColor(.primary)
-            Text("Total: \(manager.totalAmount)")
+            Text("You are making a payment to Haris Internation and amount \(manager.totalAmount) will be deducted off your wallet, including 0.5% tax (200) and 0.5 walllet fee (230)")
                 .font(.system(.body, design: .rounded))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
@@ -175,7 +178,7 @@ public struct PaymentConfirmPopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Continue") { manager.proceedFromConfirm() }
+                Button("Confirm") { manager.proceedFromConfirm() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
