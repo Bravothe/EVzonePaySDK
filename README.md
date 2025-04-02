@@ -20,8 +20,12 @@ A SwiftUI-based iOS SDK for integrating a simple payment flow into your app. Thi
 ### Swift Package Manager
 
 1. In Xcode, go to `File > Add Packages`.
-2. Enter the repository URL: `https://github.com/Bravothe/EVzonePaySDK.git` (replace with your actual repo URL).
-3. Select the version or branch you want (e.g., `main`).
+2. Enter the repository URL:
+
+ ```swift
+ https://github.com/Bravothe/EVzonePaySDK.git
+ ```
+
 4. Add the package to your target.
 
 ## Usage
@@ -96,22 +100,7 @@ Try with `user1` (succeeds for $100.49) or `user2` (fails due to insufficient fu
 ## Customization
 
 - **Image**: Pass an `imageName` from your app’s asset catalog to brand the popups.
-- **Styling**: The popups use system colors and fonts, adapting to light/dark mode automatically.
-
-## Notes
-
-- **Assets**: The SDK doesn’t include an assets folder; provide the image name from your app.
-- **Real-World Use**: Replace the mock user database with your own backend or storage solution.
 
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
-
----
-
-### Notes on the README
-- **Simple**: Focuses on quick setup and usage with a clear example.
-- **Easy**: Uses minimal technical jargon, making it accessible to beginners.
-- **Relevant**: Highlights the SDK’s key features (validation, popups) and how to integrate it.
-- **Testable**: Includes example users so developers can try it immediately.
-
