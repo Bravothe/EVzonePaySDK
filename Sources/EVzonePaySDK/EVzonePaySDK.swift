@@ -7,7 +7,7 @@ public class EVzonePayManager: ObservableObject {
     @Published public var showStatus = false
     @Published public var passcode = ""
     @Published public var paymentStatus = ""
-    @Published public var isLoading = false // New loading state
+    @Published public var isLoading = false
     
     public let username: String?
     public let totalAmount: String
@@ -18,10 +18,10 @@ public class EVzonePayManager: ObservableObject {
         "user2": ("5678", 50.00)
     ]
     
-    public var storedPasscode: String? {
+    private var storedPasscode: String? {
         username != nil ? users[username!]?.passcode : nil
     }
-    public var userBalance: Double? {
+    private var userBalance: Double? {
         username != nil ? users[username!]?.balance : nil
     }
     
@@ -35,7 +35,6 @@ public class EVzonePayManager: ObservableObject {
         withAnimation(.easeInOut) {
             isLoading = true
         }
-        // Simulate a network delay for loading (replace with actual check if needed)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             withAnimation(.easeInOut) {
                 self.isLoading = false
@@ -48,21 +47,21 @@ public class EVzonePayManager: ObservableObject {
         }
     }
     
-    public func proceedFromLogin() {
+    internal func proceedFromLogin() {
         withAnimation(.easeInOut) {
             showLogin = false
             showPurchase = true
         }
     }
     
-    public func proceedFromPurchase() {
+    internal func proceedFromPurchase() {
         withAnimation(.easeInOut) {
             showPurchase = false
             showConfirm = true
         }
     }
     
-    public func proceedFromConfirm() {
+    internal func proceedFromConfirm() {
         withAnimation(.easeInOut) {
             guard let storedPasscode = storedPasscode else {
                 paymentStatus = "Payment Failed"
@@ -96,7 +95,7 @@ public class EVzonePayManager: ObservableObject {
         }
     }
     
-    public func closeStatus() {
+    internal func closeStatus() {
         withAnimation(.easeInOut) {
             showStatus = false
             passcode = ""
