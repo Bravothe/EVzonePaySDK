@@ -5,11 +5,7 @@ A SwiftUI-based iOS SDK for integrating a simple payment flow into your app. Thi
 
 ## Features
 
-- User Validation: Checks if a username exists before proceeding.
-- Passcode Verification: Ensures the entered passcode matches the stored one.
-- Balance Check: Confirms sufficient funds for the transaction.
-- Popup UI: Provides a complete payment flow with Login, Purchase, Confirmation, and Status popups, with a cloud-hosted logo and animated loading state.
-- Customizable: Pass your own username, total amount, and items purchased.
+- Customizable: Pass your own businessname, currency, username(buyer details), total amount, and items purchased.
 
 ## Requirements
 
