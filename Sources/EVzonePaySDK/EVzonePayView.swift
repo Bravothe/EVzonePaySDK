@@ -4,7 +4,7 @@ public struct EVzonePayView: View {
     @ObservedObject public var manager: EVzonePayManager
     @State private var isBlinking = false
     
-    private let logoURL = URL(string: "https://res.cloudinary.com/dlfa42ans/image/upload/v1741686201/logo_n7vrsf.jpg")!
+    private let logoURL = URL(string: "https://res.cloudinary.com/dlfa42ans/image/upload/v1743601557/logo1_ypujra.png")!
     
     public var body: some View {
         ZStack {
