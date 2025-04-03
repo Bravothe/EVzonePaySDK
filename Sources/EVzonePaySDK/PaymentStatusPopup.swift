@@ -28,7 +28,7 @@ public struct PaymentStatusPopup: View {
                 // Status Title
                 Text(manager.paymentStatus)
                     .font(.system(.title2, design: .rounded, weight: .bold))
-                    .foregroundColor(.primary)
+                    .foregroundColor(manager.paymentStatus == "Insufficient Funds" ? .orange : .primary)
                     .multilineTextAlignment(.center)
                 
                 // Status Message (only for Insufficient Funds)
