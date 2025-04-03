@@ -10,8 +10,11 @@ public class EVzonePayManager: ObservableObject {
     @Published public var isLoading = false
     
     public let username: String?
+    public let userId: String // New: User ID
+    public let businessName: String // New: Business name (where items are bought)
     public let totalAmount: String
     public let itemsPurchased: String
+    public let currency: String // New: Currency, defaults to "UGX"
     
     private let users: [String: (passcode: String, balance: Double)] = [
         "user1": ("1234", 150.00),
@@ -25,17 +28,20 @@ public class EVzonePayManager: ObservableObject {
         username != nil ? users[username!]?.balance : nil
     }
     
-    public init(username: String?, totalAmount: String, itemsPurchased: String) {
+    public init(username: String?, userId: String, businessName: String, totalAmount: String, itemsPurchased: String, currency: String = "UGX") {
         self.username = username
+        self.userId = userId
+        self.businessName = businessName
         self.totalAmount = totalAmount
         self.itemsPurchased = itemsPurchased
+        self.currency = currency
     }
     
     public func startPayment() {
         withAnimation(.easeInOut) {
             isLoading = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             withAnimation(.easeInOut) {
                 self.isLoading = false
                 if self.username == nil || self.users[self.username!] == nil {
@@ -77,7 +83,7 @@ public class EVzonePayManager: ObservableObject {
                 return
             }
             
-            guard let balance = userBalance, let amount = Double(totalAmount.replacingOccurrences(of: "$", with: "")) else {
+            guard let balance = userBalance, let amount = Double(totalAmount.replacingOccurrences(of: currency, with: "").trimmingCharacters(in: .whitespaces)) else {
                 paymentStatus = "Payment Failed"
                 showConfirm = false
                 showStatus = true

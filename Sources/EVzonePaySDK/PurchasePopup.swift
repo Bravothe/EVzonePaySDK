@@ -12,15 +12,22 @@ public struct PurchasePopup: View {
             Text("Purchase Details")
                 .font(.system(.title3, design: .rounded, weight: .medium))
                 .foregroundColor(.primary)
-            VStack(spacing: 8) {
-                Text(manager.itemsPurchased)
+            VStack(alignment: .leading, spacing: 8) {
+                Text("From: \(manager.businessName)")
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(.primary)
-                Text("Total: \(manager.totalAmount)")
+                Text("User ID: \(manager.userId)")
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(.primary)
+                Text("Item: \(manager.itemsPurchased)")
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(.primary)
+                Text("Total: \(manager.currency) \(manager.totalAmount)")
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(.secondary)
             }
             .padding(.top, 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
             Divider()
                 .padding(.horizontal, 20)
@@ -32,7 +39,7 @@ public struct PurchasePopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 
-                Button("Continue") { manager.proceedFromPurchase() }
+                Button("Next") { manager.proceedFromPurchase() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(width: UIScreen.main.bounds.width / 2 - 35, height: 50)
                     .background(Color(.systemBlue))
@@ -43,7 +50,7 @@ public struct PurchasePopup: View {
             .padding(.bottom, 20)
             .padding(.top, 10)
         }
-        .frame(width: UIScreen.main.bounds.width - 40, height: 260)
+        .frame(width: UIScreen.main.bounds.width - 40, height: 300) // Increased height to fit new info
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
