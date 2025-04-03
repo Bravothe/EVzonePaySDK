@@ -6,33 +6,64 @@ public struct PaymentStatusPopup: View {
     public var body: some View {
         VStack(spacing: 0) {
             PopupHeader()
-            Divider()
+            VStack(spacing: 15) {
+                // Status Icon
+                if manager.paymentStatus == "Insufficient Funds" {
+                    Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                        .foregroundColor(.orange)
+                } else if manager.paymentStatus == "Payment Successful" {
+                    Image(systemName: "checkmark.circle.fill")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                        .foregroundColor(.green)
+                } else if manager.paymentStatus == "Payment Failed" {
+                    Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                        .foregroundColor(.red)
+                }
+                
+                // Status Title
+                Text(manager.paymentStatus)
+                    .font(.system(.title2, design: .rounded, weight: .bold))
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                
+                // Status Message (only for Insufficient Funds)
+                if manager.paymentStatus == "Insufficient Funds" {
+                    Text("The account did not have sufficient funds to cover the transaction amount at the time of the transaction")
+                        .font(.system(.body, design: .rounded))
+                        .foregroundColor(.primary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                }
+                
+                // Button
+                Button(action: {
+                    if manager.paymentStatus == "Insufficient Funds" {
+                        // In a real app, this would navigate to a funding screen
+                        manager.closeStatus() // For now, just close
+                    } else {
+                        manager.closeStatus()
+                    }
+                }) {
+                    Text(manager.paymentStatus == "Insufficient Funds" ? "Add Funds" : "OK")
+                        .font(.system(.body, design: .rounded, weight: .medium))
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                }
                 .padding(.horizontal, 20)
-            Spacer()
-            Text("Payment Status")
-                .font(.system(.title3, design: .rounded, weight: .medium))
-                .foregroundColor(.primary)
-            Text(manager.paymentStatus)
-                .font(.system(.body, design: .rounded))
-                .foregroundColor(.primary)
-                .padding(.top, 10)
-            Spacer()
-            Divider()
-                .padding(.horizontal, 20)
-            Button("OK") { manager.closeStatus() }
-                .buttonStyle(PlainButtonStyle())
-                .frame(width: UIScreen.main.bounds.width - 80, height: 50)
-                .background(Color(.systemBlue))
-                .foregroundColor(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                .padding(.horizontal, 20)
-                .padding(.bottom, 20)
-                .padding(.top, 10)
+            }
+            .padding(.vertical, 20)
         }
-        .frame(width: UIScreen.main.bounds.width - 40, height: 240)
+        .frame(width: UIScreen.main.bounds.width - 40)
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
     }
     
     public init(manager: EVzonePayManager) {
