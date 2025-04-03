@@ -8,24 +8,36 @@ public struct PaymentConfirmPopup: View {
             PopupHeader()
             VStack(alignment: .leading, spacing: 10) {
                 // Title Section
-                HStack {
-                    Text("Merchant Info: ")
-                        .font(.system(.title3, design: .rounded, weight: .medium))
-                        .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3))
-                    Text(manager.businessName)
-                        .font(.system(.title3, design: .rounded, weight: .medium))
-                        .foregroundColor(.primary)
+                Text("Merchant Info:")
+                    .font(.system(.title3, design: .rounded, weight: .medium))
+                    .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3))
+                
+                HStack(alignment: .top) {
+                    // Left: Business Name and User ID
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(manager.businessName)
+                            .font(.system(.body, design: .rounded))
+                            .foregroundColor(.primary)
+                        Text(manager.userId)
+                            .font(.system(.body, design: .rounded))
+                            .foregroundColor(.primary)
+                    }
+                    
                     Spacer()
-                    HStack(spacing: 0) {
-                        Text("Amount: ")
-                            .font(.system(.title3, design: .rounded, weight: .medium))
+                    
+                    // Right: Amount
+                    VStack(alignment: .trailing, spacing: 5) {
+                        Text("Amount:")
+                            .font(.system(.body, design: .rounded))
                             .foregroundColor(.primary)
-                        Text(manager.currency)
-                            .font(.system(.title3, design: .rounded, weight: .medium))
-                            .foregroundColor(.primary)
-                        Text(" \(manager.totalAmount)")
-                            .font(.system(.title3, design: .rounded, weight: .medium))
-                            .foregroundColor(.primary) 
+                        HStack(spacing: 0) {
+                            Text(manager.currency)
+                                .font(.system(.body, design: .rounded))
+                                .foregroundColor(.primary) // Smooth green
+                            Text(" \(manager.totalAmount)")
+                                .font(.system(.body, design: .rounded))
+                                .foregroundColor(.primary) // Smooth green
+                        }
                     }
                 }
                 
@@ -39,7 +51,7 @@ public struct PaymentConfirmPopup: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
                 
-                // Additional Info
+                // Additional Info with Light Blue Background
                 HStack {
                     Image(systemName: "info.circle")
                         .foregroundColor(.blue)
@@ -49,12 +61,17 @@ public struct PaymentConfirmPopup: View {
                     +
                     Text("\(manager.currency) \(manager.totalAmount)")
                         .font(.system(.caption, design: .rounded))
-                        .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                        .foregroundColor(.primary) // Smooth green
                     +
                     Text(" will be deducted off your wallet, including 0.5% tax (\(manager.currency)280) and 0.5% wallet fee (\(manager.currency)500).")
                         .font(.system(.caption, design: .rounded))
                         .foregroundColor(.primary)
                 }
+                .padding(10)
+                .background(
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(Color.blue.opacity(0.1)) // Light blue background
+                )
                 .padding(.top, 10)
             }
             .padding(.horizontal, 20)
