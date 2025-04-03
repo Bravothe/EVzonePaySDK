@@ -41,7 +41,7 @@ public class EVzonePayManager: ObservableObject {
         withAnimation(.easeInOut) {
             isLoading = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
             withAnimation(.easeInOut) {
                 self.isLoading = false
                 if self.username == nil || self.users[self.username!] == nil {
