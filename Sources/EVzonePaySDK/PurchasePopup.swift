@@ -32,7 +32,7 @@ public struct PurchasePopup: View {
                         Text("Type")
                             .foregroundColor(.primary)
                         Spacer()
-                        Text("Booking")
+                        Text("Purchase")
                             .foregroundColor(.primary)
                     }
                     HStack {
@@ -64,7 +64,7 @@ public struct PurchasePopup: View {
                             Text(manager.currency)
                                 .foregroundColor(.primary)
                             Text(" \(manager.totalAmount)")
-                                .foregroundColor(.primary) 
+                                .foregroundColor(.primary)
                         }
                     }
                     HStack {
@@ -96,7 +96,7 @@ public struct PurchasePopup: View {
                     .foregroundColor(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 
-                Button("Next") { manager.proceedFromPurchase() }
+                Button("Continue") { manager.proceedFromPurchase() }
                     .buttonStyle(PlainButtonStyle())
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
