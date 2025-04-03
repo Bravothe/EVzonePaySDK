@@ -6,20 +6,26 @@ public struct PurchasePopup: View {
     public var body: some View {
         VStack(spacing: 0) {
             PopupHeader()
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .center, spacing: 10) { // Changed to .center
                 // Title Section
                 Text(manager.businessName)
                     .font(.system(.title2, design: .rounded, weight: .bold))
                     .foregroundColor(.primary)
-                Text("\(manager.currency) \(manager.totalAmount)")
-                    .font(.system(.title2, design: .rounded, weight: .bold))
-                    .foregroundColor(.primary)
+                HStack(spacing: 0) {
+                    Text(manager.currency)
+                        .font(.system(.title2, design: .rounded, weight: .bold))
+                        .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                    Text(" \(manager.totalAmount)")
+                        .font(.system(.title2, design: .rounded, weight: .bold))
+                        .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                }
                 
                 // Details Section
                 Text("Transaction Details")
                     .font(.system(.headline, design: .rounded))
                     .foregroundColor(.primary)
                     .padding(.top, 10)
+                    .frame(maxWidth: .infinity, alignment: .leading) // Keep this left-aligned
                 
                 Group {
                     HStack {
@@ -54,17 +60,26 @@ public struct PurchasePopup: View {
                         Text("Billed Amount")
                             .foregroundColor(.primary)
                         Spacer()
-                        Text("\(manager.currency) \(manager.totalAmount)")
-                            .foregroundColor(.primary)
+                        HStack(spacing: 0) {
+                            Text(manager.currency)
+                                .foregroundColor(.primary)
+                            Text(" \(manager.totalAmount)")
+                                .foregroundColor(.primary) 
+                        }
                     }
                     HStack {
                         Text("Total Billing")
                             .font(.system(.body, design: .rounded, weight: .bold))
                             .foregroundColor(.primary)
                         Spacer()
-                        Text("\(manager.currency) \(manager.totalAmount)")
-                            .font(.system(.body, design: .rounded, weight: .bold))
-                            .foregroundColor(.primary)
+                        HStack(spacing: 0) {
+                            Text(manager.currency)
+                                .font(.system(.body, design: .rounded, weight: .bold))
+                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                            Text(" \(manager.totalAmount)")
+                                .font(.system(.body, design: .rounded, weight: .bold))
+                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                        }
                     }
                 }
                 .font(.system(.body, design: .rounded))
