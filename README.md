@@ -37,7 +37,7 @@ A SwiftUI-based iOS SDK for integrating EVzone Pay payment flow into your E-comm
 
 2. **Set Up in Your View**:
 
-   Create an instance of `EVzonePayManager` with your payment details, add a button to initiate the payment flow, and embed `EVzonePayView` to display the payment UI. The SDK will handle the payment flow accordingly as long as you have passed the required variables accordingly.
+   Create an instance of `EVzonePayManager` with your payment details, add a button to initiate the payment flow, and embed `EVzonePayView` to display the payment UI. The SDK will handle the payment flow accordingly as long as you have passed the required variables correctly.
 
    ```swift
    import SwiftUI

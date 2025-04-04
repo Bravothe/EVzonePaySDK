@@ -5,6 +5,7 @@ public struct PaymentConfirmPopup: View {
     
     public var body: some View {
         VStack(spacing: 0) {
+            // Header with EVzone Pay logo
             PopupHeader(showCloseButton: true, onClose: { manager.showConfirm = false })
             
             VStack(alignment: .leading, spacing: 10) {
@@ -13,8 +14,21 @@ public struct PaymentConfirmPopup: View {
                     .font(.system(.title3, design: .rounded, weight: .medium))
                     .foregroundColor(.primary)
                 
+                // Business Logo, Name, and Amount
                 HStack(alignment: .top) {
-                    // Left: Business Name and User ID
+                    // Left: Business Logo
+                    AsyncImage(url: URL(string: manager.businessLogoURL)) { image in
+                        image
+                            .resizable()
+                            .frame(width: 44, height: 44)
+                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width: 44, height: 44)
+                    }
+                    .padding(.trailing, 10)
+                    
+                    // Middle: Business Name and User ID
                     VStack(alignment: .leading, spacing: 5) {
                         Text(manager.businessName)
                             .font(.system(.body, design: .rounded))
@@ -53,26 +67,26 @@ public struct PaymentConfirmPopup: View {
                     .frame(height: 44)
                 
                 // Additional Info with Light Blue Background
-                                HStack {
-                                    Image(systemName: "info.circle")
-                                        .foregroundColor(.blue)
-                                    Text("You are making a payment to \(manager.businessName) and amount ")
-                                        .font(.system(.caption, design: .rounded))
-                                        .foregroundColor(.primary)
-                                    +
-                                    Text("\(manager.currency) \(manager.totalAmount)")
-                                        .font(.system(.caption, design: .rounded))
-                                        .foregroundColor(.primary) // Smooth green
-                                    +
-                                    Text(" will be deducted off your wallet, including 0.5% tax (\(manager.currency)280) and 0.5% wallet fee (\(manager.currency)500).")
-                                        .font(.system(.caption, design: .rounded))
-                                        .foregroundColor(.primary)
-                                }
-                                .padding(10)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                        .fill(Color.blue.opacity(0.1)) // Light blue background
-                                )
+                HStack {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.blue)
+                    Text("You are making a payment to \(manager.businessName) and amount ")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(.primary)
+                    +
+                    Text("\(manager.currency) \(manager.totalAmount)")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(.primary) // Smooth green
+                    +
+                    Text(" will be deducted off your wallet, including 0.5% tax (\(manager.currency)280) and 0.5% wallet fee (\(manager.currency)500).")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(.primary)
+                }
+                .padding(10)
+                .background(
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(Color.blue.opacity(0.1)) // Light blue background
+                )
                 .padding(.top, 10)
             }
             .padding(.horizontal, 20)

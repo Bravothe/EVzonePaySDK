@@ -15,6 +15,7 @@ public class EVzonePayManager: ObservableObject {
     public let totalAmount: String
     public let itemsPurchased: String
     public let currency: String
+    public let businessLogoURL: String // Business logo URL (now required)
     
     private let users: [String: (passcode: String, balance: Double)] = [
         "user1": ("1234", 150.00),
@@ -28,13 +29,22 @@ public class EVzonePayManager: ObservableObject {
         username != nil ? users[username!]?.balance : nil
     }
     
-    public init(username: String?, userId: String, businessName: String, totalAmount: String, itemsPurchased: String, currency: String = "UGX") {
+    public init(
+        username: String?,
+        userId: String,
+        businessName: String,
+        totalAmount: String,
+        itemsPurchased: String,
+        currency: String = "UGX",
+        businessLogoURL: String // Now required
+    ) {
         self.username = username
         self.userId = userId
         self.businessName = businessName
         self.totalAmount = totalAmount
         self.itemsPurchased = itemsPurchased
         self.currency = currency
+        self.businessLogoURL = businessLogoURL
     }
     
     public func startPayment() {
