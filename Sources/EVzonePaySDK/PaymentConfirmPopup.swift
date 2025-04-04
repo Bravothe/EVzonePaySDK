@@ -12,16 +12,16 @@ public struct PaymentConfirmPopup: View {
                 // Title Section
                 Text("Merchant Info:")
                     .font(.system(.title3, design: .rounded, weight: .medium))
-                    .foregroundColor(.primary)
+                    .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3))
                 
                 // Business Logo, Name, and Amount
                 HStack(alignment: .top) {
-                    // Left: Business Logo
+                    // Left: Business Logo (Circular)
                     AsyncImage(url: URL(string: manager.businessLogoURL)) { image in
                         image
                             .resizable()
                             .frame(width: 44, height: 44)
-                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                            .clipShape(Circle()) // Changed to circular shape
                     } placeholder: {
                         ProgressView()
                             .frame(width: 44, height: 44)
@@ -48,10 +48,10 @@ public struct PaymentConfirmPopup: View {
                         HStack(spacing: 0) {
                             Text(manager.currency)
                                 .font(.system(.body, design: .rounded))
-                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                                .foregroundColor(.primary) // Smooth green
                             Text(" \(manager.totalAmount)")
                                 .font(.system(.body, design: .rounded))
-                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                                .foregroundColor(.primary) // Smooth green
                         }
                     }
                 }
