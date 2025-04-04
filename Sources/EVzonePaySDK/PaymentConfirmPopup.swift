@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct PaymentConfirmPopup: View {
     @ObservedObject public var manager: EVzonePayManager
+    @FocusState private var isPasscodeFocused: Bool // Add focus state for the TextField
     
     public var body: some View {
         VStack(spacing: 0) {
@@ -12,7 +13,7 @@ public struct PaymentConfirmPopup: View {
                 // Title Section
                 Text("Merchant Info:")
                     .font(.system(.title3, design: .rounded, weight: .medium))
-                    .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3))
+                    .foregroundColor(.primary)
                 
                 // Business Logo, Name, and Amount
                 HStack(alignment: .top) {
@@ -21,7 +22,7 @@ public struct PaymentConfirmPopup: View {
                         image
                             .resizable()
                             .frame(width: 44, height: 44)
-                            .clipShape(Circle()) // Changed to circular shape
+                            .clipShape(Circle())
                     } placeholder: {
                         ProgressView()
                             .frame(width: 44, height: 44)
@@ -48,10 +49,10 @@ public struct PaymentConfirmPopup: View {
                         HStack(spacing: 0) {
                             Text(manager.currency)
                                 .font(.system(.body, design: .rounded))
-                                .foregroundColor(.primary) // Smooth green
+                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
                             Text(" \(manager.totalAmount)")
                                 .font(.system(.body, design: .rounded))
-                                .foregroundColor(.primary) // Smooth green
+                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
                         }
                     }
                 }
@@ -65,6 +66,13 @@ public struct PaymentConfirmPopup: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
+                    .focused($isPasscodeFocused) // Bind focus state
+                    .onAppear {
+                        // Automatically focus the TextField when the popup appears
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            isPasscodeFocused = true
+                        }
+                    }
                 
                 // Additional Info with Light Blue Background
                 HStack {
