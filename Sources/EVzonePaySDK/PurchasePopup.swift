@@ -5,8 +5,9 @@ public struct PurchasePopup: View {
     
     public var body: some View {
         VStack(spacing: 0) {
-            PopupHeader()
-            VStack(alignment: .center, spacing: 10) { // Changed to .center
+            PopupHeader(showCloseButton: true, onClose: { manager.showPurchase = false })
+            
+            VStack(alignment: .center, spacing: 10) {
                 // Title Section
                 Text(manager.businessName)
                     .font(.system(.title2, design: .rounded, weight: .bold))
@@ -25,7 +26,7 @@ public struct PurchasePopup: View {
                     .font(.system(.headline, design: .rounded))
                     .foregroundColor(.primary)
                     .padding(.top, 10)
-                    .frame(maxWidth: .infinity, alignment: .leading) // Keep this left-aligned
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Group {
                     HStack {
@@ -86,27 +87,17 @@ public struct PurchasePopup: View {
             }
             .padding(.horizontal, 20)
             
-            // Buttons: Cancel and Next
-            HStack(spacing: 15) {
-                Button("Cancel") { manager.showPurchase = false }
-                    .buttonStyle(PlainButtonStyle())
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(Color(.systemGray6))
-                    .foregroundColor(.primary)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                
-                Button("Continue") { manager.proceedFromPurchase() }
-                    .buttonStyle(PlainButtonStyle())
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
-            .padding(.bottom, 15)
+            // Button: Continue only
+            Button("Continue") { manager.proceedFromPurchase() }
+                .buttonStyle(PlainButtonStyle())
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 15)
         }
         .frame(width: UIScreen.main.bounds.width - 40)
         .background(Color(.systemBackground))

@@ -5,12 +5,13 @@ public struct PaymentConfirmPopup: View {
     
     public var body: some View {
         VStack(spacing: 0) {
-            PopupHeader()
+            PopupHeader(showCloseButton: true, onClose: { manager.showConfirm = false })
+            
             VStack(alignment: .leading, spacing: 10) {
                 // Title Section
                 Text("Merchant Info:")
                     .font(.system(.title3, design: .rounded, weight: .medium))
-                    .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3))
+                    .foregroundColor(.primary)
                 
                 HStack(alignment: .top) {
                     // Left: Business Name and User ID
@@ -33,10 +34,10 @@ public struct PaymentConfirmPopup: View {
                         HStack(spacing: 0) {
                             Text(manager.currency)
                                 .font(.system(.body, design: .rounded))
-                                .foregroundColor(.primary) // Smooth green
+                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
                             Text(" \(manager.totalAmount)")
                                 .font(.system(.body, design: .rounded))
-                                .foregroundColor(.primary) // Smooth green
+                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
                         }
                     }
                 }
@@ -52,17 +53,20 @@ public struct PaymentConfirmPopup: View {
                     .frame(height: 44)
                 
                 // Additional Info with Light Blue Background
-                HStack {
+                HStack(alignment: .center, spacing: 0) {
                     Image(systemName: "info.circle")
                         .foregroundColor(.blue)
+                        .padding(.trailing, 5)
+                    
+                    // Break up the Text into a HStack of smaller Text views
                     Text("You are making a payment to \(manager.businessName) and amount ")
                         .font(.system(.caption, design: .rounded))
                         .foregroundColor(.primary)
-                    +
+                    
                     Text("\(manager.currency) \(manager.totalAmount)")
                         .font(.system(.caption, design: .rounded))
-                        .foregroundColor(.primary) // Smooth green
-                    +
+                        .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Fixed to smooth green
+                    
                     Text(" will be deducted off your wallet, including 0.5% tax (\(manager.currency)280) and 0.5% wallet fee (\(manager.currency)500).")
                         .font(.system(.caption, design: .rounded))
                         .foregroundColor(.primary)
@@ -76,27 +80,17 @@ public struct PaymentConfirmPopup: View {
             }
             .padding(.horizontal, 20)
             
-            // Buttons: Cancel and Confirm
-            HStack(spacing: 15) {
-                Button("Cancel") { manager.showConfirm = false }
-                    .buttonStyle(PlainButtonStyle())
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(Color(.systemGray6))
-                    .foregroundColor(.primary)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                
-                Button("Confirm") { manager.proceedFromConfirm() }
-                    .buttonStyle(PlainButtonStyle())
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
-            .padding(.bottom, 15)
+            // Button: Confirm only
+            Button("Confirm") { manager.proceedFromConfirm() }
+                .buttonStyle(PlainButtonStyle())
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 15)
         }
         .frame(width: UIScreen.main.bounds.width - 40)
         .background(Color(.systemBackground))

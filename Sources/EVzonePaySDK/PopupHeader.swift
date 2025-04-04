@@ -2,6 +2,8 @@ import SwiftUI
 
 public struct PopupHeader: View {
     private let cloudImageURL = URL(string: "https://res.cloudinary.com/dlfa42ans/image/upload/v1743601557/logo1_ypujra.png")!
+    private let showCloseButton: Bool
+    private let onClose: () -> Void
     
     public var body: some View {
         VStack(spacing: 0) {
@@ -19,6 +21,15 @@ public struct PopupHeader: View {
                     .font(.system(.title3, design: .rounded, weight: .semibold))
                     .foregroundColor(.primary)
                 Spacer()
+                if showCloseButton {
+                    Button(action: onClose) {
+                        Image(systemName: "xmark.circle.fill")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(.red)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
             }
             .padding(.horizontal, 20)
             .padding(.top, 15)
@@ -37,5 +48,8 @@ public struct PopupHeader: View {
         }
     }
     
-    public init() {}
+    public init(showCloseButton: Bool = false, onClose: @escaping () -> Void = {}) {
+        self.showCloseButton = showCloseButton
+        self.onClose = onClose
+    }
 }
