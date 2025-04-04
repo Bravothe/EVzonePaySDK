@@ -10,11 +10,11 @@ public class EVzonePayManager: ObservableObject {
     @Published public var isLoading = false
     
     public let username: String?
-    public let userId: String // New: User ID
-    public let businessName: String // New: Business name (where items are bought)
+    public let userId: String
+    public let businessName: String
     public let totalAmount: String
     public let itemsPurchased: String
-    public let currency: String // New: Currency, defaults to "UGX"
+    public let currency: String
     
     private let users: [String: (passcode: String, balance: Double)] = [
         "user1": ("1234", 150.00),
