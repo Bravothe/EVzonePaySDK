@@ -14,20 +14,19 @@ public struct EVzonePayView: View {
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 44, height: 44)
+                            .frame(width: 60, height: 60) // Increased from 44x44 to 60x60
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     } placeholder: {
                         ProgressView()
-                            .frame(width: 44, height: 44)
+                            .frame(width: 60, height: 60) // Increased from 44x44 to 60x60
                     }
                     HStack(spacing: 0) {
                         Text("EVzone")
-                            .font(.system(.body, design: .rounded, weight: .bold))
+                            .font(.system(.title2, design: .rounded, weight: .bold)) // Increased from .body to .title2
                             .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
                         Text(" Pay")
-                            .font(.system(.body, design: .rounded, weight: .bold))
+                            .font(.system(.title2, design: .rounded, weight: .bold)) // Increased from .body to .title2
                             .foregroundColor(Color(red: 1.0, green: 0.5, blue: 0.0)) // Smooth orange
-                        
                     }
                     .padding(.top, 10)
                     .opacity(isBlinking ? 1.0 : 0.0)
@@ -39,7 +38,7 @@ public struct EVzonePayView: View {
                     .onAppear { isBlinking = true }
                     .onDisappear { isBlinking = false }
                 }
-                .frame(width: 150, height: 150)
+                .frame(width: UIScreen.main.bounds.width - 40, height: 250) // Increased from 150x150 to match other popups
                 .background(Color(.systemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
