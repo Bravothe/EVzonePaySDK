@@ -53,29 +53,26 @@ public struct PaymentConfirmPopup: View {
                     .frame(height: 44)
                 
                 // Additional Info with Light Blue Background
-                HStack(alignment: .center, spacing: 0) {
-                    Image(systemName: "info.circle")
-                        .foregroundColor(.blue)
-                        .padding(.trailing, 5)
-                    
-                    // Break up the Text into a HStack of smaller Text views
-                    Text("You are making a payment to \(manager.businessName) and amount ")
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundColor(.primary)
-                    
-                    Text("\(manager.currency) \(manager.totalAmount)")
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Fixed to smooth green
-                    
-                    Text(" will be deducted off your wallet, including 0.5% tax (\(manager.currency)280) and 0.5% wallet fee (\(manager.currency)500).")
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundColor(.primary)
-                }
-                .padding(10)
-                .background(
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(Color.blue.opacity(0.1)) // Light blue background
-                )
+                                HStack {
+                                    Image(systemName: "info.circle")
+                                        .foregroundColor(.blue)
+                                    Text("You are making a payment to \(manager.businessName) and amount ")
+                                        .font(.system(.caption, design: .rounded))
+                                        .foregroundColor(.primary)
+                                    +
+                                    Text("\(manager.currency) \(manager.totalAmount)")
+                                        .font(.system(.caption, design: .rounded))
+                                        .foregroundColor(.primary) // Smooth green
+                                    +
+                                    Text(" will be deducted off your wallet, including 0.5% tax (\(manager.currency)280) and 0.5% wallet fee (\(manager.currency)500).")
+                                        .font(.system(.caption, design: .rounded))
+                                        .foregroundColor(.primary)
+                                }
+                                .padding(10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                        .fill(Color.blue.opacity(0.1)) // Light blue background
+                                )
                 .padding(.top, 10)
             }
             .padding(.horizontal, 20)
