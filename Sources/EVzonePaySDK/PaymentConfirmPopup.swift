@@ -23,7 +23,10 @@ public struct PaymentConfirmPopup: View {
                         .foregroundColor(.white)
                         .padding(10)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.blue)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8, style: .continuous) // Add rounded corners
+                                .fill(Color.blue)
+                        )
                 }
                 
                 // Light Blue Section (Collapsible)
@@ -41,7 +44,10 @@ public struct PaymentConfirmPopup: View {
                     }
                     .padding(10)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.blue.opacity(0.1))
+                    .background(
+                        RoundedRectangle(cornerRadius: 8, style: .continuous) // Add rounded corners
+                            .fill(Color.blue.opacity(0.1))
+                    )
                 }
             }
             .padding(.horizontal, 20)
@@ -51,7 +57,7 @@ public struct PaymentConfirmPopup: View {
                 // Title Section
                 Text("Merchant Info:")
                     .font(.system(.title3, design: .rounded, weight: .medium))
-                    .foregroundColor(.primary)
+                    .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3))
                 
                 // Business Logo, Name, and Amount
                 HStack(alignment: .top) {
@@ -87,10 +93,12 @@ public struct PaymentConfirmPopup: View {
                         HStack(spacing: 0) {
                             Text(manager.ownerCurrency)
                                 .font(.system(.body, design: .rounded))
-                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                                .foregroundColor(.primary) // Smooth green
+                                .bold()
                             Text(" \(manager.totalAmount)")
                                 .font(.system(.body, design: .rounded))
-                                .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
+                                .foregroundColor(.primary) // Smooth green
+                                .bold()
                         }
                     }
                 }
@@ -121,11 +129,13 @@ public struct PaymentConfirmPopup: View {
                     +
                     Text("\(manager.currency) \(manager.amountInUGX)")
                         .font(.system(.caption, design: .rounded))
-                        .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green to match screenshot
+                        .foregroundColor(.primary) // Smooth green to match screenshot
+                        .bold()
                     +
                     Text(" will be deducted off your wallet, including 0.5% tax (\(manager.currency)280) and 0.5% wallet fee (\(manager.currency)500).")
                         .font(.system(.caption, design: .rounded))
                         .foregroundColor(.primary)
+                        .bold()
                 }
                 .padding(10)
                 .background(
