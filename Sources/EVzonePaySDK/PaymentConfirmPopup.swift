@@ -2,12 +2,50 @@ import SwiftUI
 
 public struct PaymentConfirmPopup: View {
     @ObservedObject public var manager: EVzonePayManager
-    @FocusState private var isPasscodeFocused: Bool // Add focus state for the TextField
+    @FocusState private var isPasscodeFocused: Bool
+    @State private var isCurrencyDetailsExpanded = false // State to toggle the collapsible section
     
     public var body: some View {
         VStack(spacing: 0) {
             // Header with EVzone Pay logo
             PopupHeader(showCloseButton: true, onClose: { manager.showConfirm = false })
+            
+            // Currency Conversion Notification
+            VStack(spacing: 0) {
+                // Dark Blue Section (Always Visible)
+                Button(action: {
+                    withAnimation {
+                        isCurrencyDetailsExpanded.toggle()
+                    }
+                }) {
+                    Text("THE RECEIVER ACCEPTS MONEY IN \(manager.ownerCurrency.uppercased()) YOU ARE ABOUT TO SEND AN EQUIVALENT OF \(manager.ownerCurrency.uppercased()) \(manager.totalAmount)")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.blue)
+                }
+                
+                // Light Blue Section (Collapsible)
+                if isCurrencyDetailsExpanded {
+                    VStack {
+                        Text("Rate: \(manager.currency) 1 = \(manager.ownerCurrency) \(String(format: "%.6f", manager.exchangeRate))")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.primary)
+                        Text("AMOUNT REQUIRED: \(manager.currency) \(manager.amountInUGX)")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.primary)
+                        Text("(Please note: current rates and charges apply)")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundColor(.red)
+                    }
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.blue.opacity(0.1))
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
             
             VStack(alignment: .leading, spacing: 10) {
                 // Title Section
@@ -41,13 +79,13 @@ public struct PaymentConfirmPopup: View {
                     
                     Spacer()
                     
-                    // Right: Amount
+                    // Right: Amount (in owner's currency)
                     VStack(alignment: .trailing, spacing: 5) {
                         Text("Amount:")
                             .font(.system(.body, design: .rounded))
                             .foregroundColor(.primary)
                         HStack(spacing: 0) {
-                            Text(manager.currency)
+                            Text(manager.ownerCurrency)
                                 .font(.system(.body, design: .rounded))
                                 .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green
                             Text(" \(manager.totalAmount)")
@@ -66,9 +104,8 @@ public struct PaymentConfirmPopup: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
-                    .focused($isPasscodeFocused) // Bind focus state
+                    .focused($isPasscodeFocused)
                     .onAppear {
-                        // Automatically focus the TextField when the popup appears
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             isPasscodeFocused = true
                         }
@@ -82,9 +119,9 @@ public struct PaymentConfirmPopup: View {
                         .font(.system(.caption, design: .rounded))
                         .foregroundColor(.primary)
                     +
-                    Text("\(manager.currency) \(manager.totalAmount)")
+                    Text("\(manager.currency) \(manager.amountInUGX)")
                         .font(.system(.caption, design: .rounded))
-                        .foregroundColor(.primary) // Smooth green
+                        .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.3)) // Smooth green to match screenshot
                     +
                     Text(" will be deducted off your wallet, including 0.5% tax (\(manager.currency)280) and 0.5% wallet fee (\(manager.currency)500).")
                         .font(.system(.caption, design: .rounded))
@@ -99,17 +136,38 @@ public struct PaymentConfirmPopup: View {
             }
             .padding(.horizontal, 20)
             
-            // Button: Confirm only
-            Button("Confirm") { manager.proceedFromConfirm() }
+            // Buttons: Back and Confirm
+            HStack(spacing: 10) {
+                Button("Back") {
+                    withAnimation(.easeInOut) {
+                        manager.showConfirm = false
+                        manager.showPurchase = true
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(Color.white)
+                .foregroundColor(.red)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .stroke(Color.red, lineWidth: 2)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                
+                Button("Confirm") {
+                    manager.proceedFromConfirm()
+                }
                 .buttonStyle(PlainButtonStyle())
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
-                .padding(.bottom, 15)
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 15)
         }
         .frame(width: UIScreen.main.bounds.width - 40)
         .background(Color(.systemBackground))
